@@ -1,8 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import MainLayout from "../components/layout/MainLayout";
+import Layout from "../components/Layout.jsx";
 import Login from "../pages/auth/login";
 import Register from "../pages/auth/register";
 import Home from "./Home";
+import Dashboard from "../pages/auction/Dashboard";
+import AuctionDetails from "../pages/auction/AuctionDetails";
+import CreateAuction from "../pages/auction/createAuction";
+import ProtectedRoute from "../components/protectedroute.jsx";
 
 const AppRoutes = () => {
   return (
@@ -13,8 +17,11 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         
         {/* Main Routes with Layout */}
-        <Route element={<MainLayout />}>
+        <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/auction/:id" element={<AuctionDetails />} />
+          <Route path="/create-auction" element={<ProtectedRoute><CreateAuction /></ProtectedRoute>} />
         </Route>
 
         {/* Catch-all redirect */}
