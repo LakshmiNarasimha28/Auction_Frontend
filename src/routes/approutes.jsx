@@ -8,7 +8,7 @@ import AuctionDetails from "../pages/auction/AuctionDetails";
 import CreateAuction from "../pages/auction/createAuction";
 import ProtectedRoute from "../components/protectedroute.jsx";
 import PaymentPage from "../pages/payments.jsx";
-import NotificationsPage from "../pages/notifications.jsx";
+import ChatPage from "../pages/chat.jsx";
 
 const AppRoutes = () => {
   return (
@@ -25,7 +25,7 @@ const AppRoutes = () => {
           <Route path="/auction/:id" element={<AuctionDetails />} />
           <Route path="/create-auction" element={<ProtectedRoute><CreateAuction /></ProtectedRoute>} />
           <Route path="/payment/:id" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+          <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
         </Route>
 
         {/* Catch-all redirect */}

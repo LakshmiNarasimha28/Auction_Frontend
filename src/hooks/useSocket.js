@@ -16,13 +16,14 @@ export const socket = socketUrl
     })
   : null;
 
-const useSocket = (auctionId, onNewBid) => {
+const useSocket = (auctionId, onNewBid, conversationId, onMessage) => {
   useEffect(() => {
     if (!socket || !auctionId) {
       return;
     }
 
     socket.emit("joinAuction", auctionId);
+    socket.emit("joinConversation", conversationId);
 
     const handleNewBid = (bid) => {
       if (onNewBid) {
@@ -31,14 +32,16 @@ const useSocket = (auctionId, onNewBid) => {
     };
 
     socket.on("newBid", handleNewBid);
+    socket.on("receiveMessage", (message) => { onMessage(message);});
 
     return () => {
       socket.off("newBid", handleNewBid);
       socket.emit("leaveAuction", auctionId);
+      socket.disconnect();
     };
-  }, [auctionId, onNewBid]);
+  }, [auctionId, onNewBid, conversationId, onMessage]);
   
-  return socket;
+    return socket;
 };
 
 export default useSocket;
