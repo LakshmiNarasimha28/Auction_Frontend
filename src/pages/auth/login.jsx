@@ -27,9 +27,9 @@ const Login = () => {
 
       const res = await API.post("/auth/login", form);
       
-      if (res.data.user) {
-        setUser(res.data.user);
-        setSuccess("Login successful! Redirecting...");
+      if (res.data.data.user) {
+        setUser(res.data.data.user);
+        setSuccess("Login successful! Loading...");
         setTimeout(() => navigate("/"), 1500);
       }
     } catch (err) {

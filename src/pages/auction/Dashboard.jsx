@@ -22,8 +22,8 @@ const Dashboard = () => {
 
   const socketUrl =
     import.meta.env.VITE_SOCKET_URL ||
-    (import.meta.env.VITE_API_URL
-      ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
+    (import.meta.env.VITE_BACKEND_URL
+      ? import.meta.env.VITE_BACKEND_URL.replace(/\/api\/?$/, "")
       : "");
   const pollingIntervalMs = 30000;
 
@@ -183,28 +183,35 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gray-50">
       <div className="flex">
         {/* Sidebar */}
-        <aside className={`${sidebarOpen ? "block" : "hidden"} md:block w-full md:w-64 bg-gray-900 text-white fixed md:relative h-screen md:h-auto z-20`}>
+        <aside className={`${sidebarOpen ? "block" : "hidden"} md:block w-full md:w-64 bg-white border-r border-gray-200 fixed md:relative h-screen md:h-auto z-20`}>
           <div className="p-6">
             <button
               onClick={() => setSidebarOpen(false)}
-              className="md:hidden mb-4 text-white hover:text-gray-300"
+              className="md:hidden mb-4 text-gray-700 hover:text-gray-900"
             >
               ✕
             </button>
             
-            <h3 className="text-lg font-bold mb-6">Categories</h3>
+            <h3 className="text-lg font-bold mb-6 text-gray-900">Categories</h3>
             
-            <nav className="space-y-3 mb-8">
+            <nav className="space-y-2 mb-8">
               <button
                 onClick={() => {
                   setFilterStatus("all");
                   setSidebarOpen(false);
                 }}
-                className={`block w-full text-left px-4 py-3 rounded-lg transition ${filterStatus === "all" ? "bg-blue-600" : "hover:bg-gray-800"}`}
+                className={`flex items-center w-full text-left px-4 py-3 rounded-lg transition font-medium ${
+                  filterStatus === "all" 
+                    ? "bg-blue-50 text-blue-700 border border-blue-200" 
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
               >
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                </svg>
                 All Auctions
               </button>
               <button
@@ -212,8 +219,15 @@ const Dashboard = () => {
                   setFilterStatus("active");
                   setSidebarOpen(false);
                 }}
-                className={`block w-full text-left px-4 py-3 rounded-lg transition ${filterStatus === "active" ? "bg-blue-600" : "hover:bg-gray-800"}`}
+                className={`flex items-center w-full text-left px-4 py-3 rounded-lg transition font-medium ${
+                  filterStatus === "active" 
+                    ? "bg-green-50 text-green-700 border border-green-200" 
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
               >
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
                 Active
               </button>
               <button
@@ -221,8 +235,15 @@ const Dashboard = () => {
                   setFilterStatus("ended");
                   setSidebarOpen(false);
                 }}
-                className={`block w-full text-left px-4 py-3 rounded-lg transition ${filterStatus === "ended" ? "bg-blue-600" : "hover:bg-gray-800"}`}
+                className={`flex items-center w-full text-left px-4 py-3 rounded-lg transition font-medium ${
+                  filterStatus === "ended" 
+                    ? "bg-gray-100 text-gray-700 border border-gray-300" 
+                    : "text-gray-700 hover:bg-gray-50"
+                }`}
               >
+                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
                 Ended
               </button>
             </nav>
@@ -233,9 +254,12 @@ const Dashboard = () => {
                   navigate("/create-auction");
                   setSidebarOpen(false);
                 }}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center"
               >
-                + Create Auction
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Create Auction
               </button>
             )}
           </div>
@@ -244,7 +268,7 @@ const Dashboard = () => {
         {/* Main Content */}
         <main className="flex-1">
           {/* Search Header */}
-          <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200 sticky top-0 z-10">
+          <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
               <div className="flex items-center gap-4 mb-4">
                 <button
@@ -256,22 +280,27 @@ const Dashboard = () => {
                   </svg>
                 </button>
                 
-                <input
-                  type="text"
-                  placeholder="Search auctions, titles, creators..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition"
-                />
+                <div className="flex-1 relative">
+                  <svg className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search auctions, titles, creators..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-gray-50 border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition"
+                  />
+                </div>
                 <button
                   onClick={() => fetchAuctions(false)}
-                  className="px-4 py-3 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+                  className="px-4 py-2.5 rounded-lg bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100 transition font-medium"
                 >
                   {isRefreshing ? "Refreshing..." : "Refresh"}
                 </button>
-                <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-white border border-gray-300 text-gray-700">
+                <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-300 text-gray-700">
                   <span
-                    className={`h-2.5 w-2.5 rounded-full ${
+                    className={`h-2 w-2 rounded-full ${
                       isLive ? "bg-green-500 animate-pulse" : "bg-gray-400"
                     }`}
                   ></span>
@@ -279,7 +308,7 @@ const Dashboard = () => {
                 </div>
                 <button
                   onClick={() => setIsPaused((prev) => !prev)}
-                  className="px-4 py-3 rounded-lg bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 transition"
+                  className="px-4 py-2.5 rounded-lg bg-gray-50 border border-gray-300 text-gray-700 hover:bg-gray-100 transition font-medium"
                 >
                   {isPaused ? "Resume" : "Pause"}
                 </button>
@@ -287,9 +316,9 @@ const Dashboard = () => {
               
               <div className="flex items-center justify-between text-sm text-gray-600">
                 {filteredAuctions.length > 0 && (
-                  <span>{filteredAuctions.length} auction{filteredAuctions.length !== 1 ? 's' : ''} found</span>
+                  <span className="font-medium">{filteredAuctions.length} auction{filteredAuctions.length !== 1 ? 's' : ''} found</span>
                 )}
-                <span>
+                <span className="text-gray-500">
                   {lastUpdated ? `Updated ${lastUpdated.toLocaleTimeString()}` : "Updating..."}
                 </span>
               </div>
@@ -400,12 +429,16 @@ const Dashboard = () => {
             )}
 
             {filteredAuctions.length === 0 ? (
-              <div className="text-center py-20">
-                <div className="text-7xl mb-4">🔍</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+              <div className="text-center py-16">
+                <div className="flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mx-auto mb-4">
+                  <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {searchTerm ? "No auctions match your search" : "No auctions available"}
                 </h3>
-                <p className="text-gray-600 mb-8">
+                <p className="text-gray-600 mb-6">
                   {searchTerm 
                     ? "Try different search terms or remove filters" 
                     : "Be the first to create an auction!"}
@@ -413,19 +446,22 @@ const Dashboard = () => {
                 {user && !searchTerm && (
                   <button
                     onClick={() => navigate("/create-auction")}
-                    className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-3 rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-200 font-semibold shadow-md hover:shadow-lg inline-block"
+                    className="bg-green-600 text-white px-6 py-2.5 rounded-lg hover:bg-green-700 transition font-semibold inline-flex items-center"
                   >
+                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
                     Create Your First Auction
                   </button>
                 )}
               </div>
             ) : (
               <>
-                <div className="mb-8">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                    {filterStatus === "active" ? "🔥 Active Auctions" : filterStatus === "ended" ? "✓ Ended Auctions" : "📊 All Auctions"}
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                    {filterStatus === "active" ? "Active Auctions" : filterStatus === "ended" ? "Ended Auctions" : "All Auctions"}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 text-sm">
                     {filterStatus === "active" 
                       ? "Currently active auctions you can bid on" 
                       : filterStatus === "ended" 
@@ -434,7 +470,7 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                   {filteredAuctions.map(auction => (
                     <AuctionCard key={auction._id} auction={auction} />
                   ))}

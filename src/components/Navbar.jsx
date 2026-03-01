@@ -18,12 +18,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <h2 
-            className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent cursor-pointer hover:from-blue-700 hover:to-blue-800 transition" 
+          <div 
+            className="flex items-center gap-2 cursor-pointer group" 
             onClick={() => navigate("/")}
           >
-            🏆 Auction Hub
-          </h2>
+            <svg className="w-8 h-8 text-blue-600 group-hover:text-blue-700 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <h2 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition">
+              Auction Hub
+            </h2>
+          </div>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">

@@ -33,8 +33,8 @@ const Register = () => {
 
       const res = await API.post("/auth/register", form);
       
-      if (res.data.user) {
-        setUser(res.data.user);
+      if (res.data.data.user) {
+        setUser(res.data.data.user);
         setSuccess("Registration successful! Redirecting...");
         setTimeout(() => navigate("/"), 1500);
       }

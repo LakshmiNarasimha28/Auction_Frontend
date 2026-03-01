@@ -1,5 +1,5 @@
-import api from "./api";
+import API from "./axios";
 
-export const loginUser = (data) => api.post("/auth/login", data);
-export const registerUser = (data) => api.post("/auth/signup", data);
-export const getProfile = () => api.get("/auth/profile");
+export const loginUser = (data) => API.post("/auth/login", data);
+export const registerUser = (data) => API.post("/auth/signup", data);
+export const getProfile = () => API.get("/auth/profile");
