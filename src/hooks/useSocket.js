@@ -9,20 +9,21 @@ const socketUrl =
     ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
     : "");
 
-const socket = socketUrl
+export const socket = socketUrl
   ? io(socketUrl, {
       transports: ["websocket"],
       autoConnect: true
     })
   : null;
 
-const useSocket = (auctionId, onNewBid) => {
+const useSocket = (auctionId, onNewBid, conversationId, onMessage) => {
   useEffect(() => {
     if (!socket || !auctionId) {
       return;
     }
 
     socket.emit("joinAuction", auctionId);
+    socket.emit("joinConversation", conversationId);
 
     const handleNewBid = (bid) => {
       if (onNewBid) {
@@ -31,12 +32,16 @@ const useSocket = (auctionId, onNewBid) => {
     };
 
     socket.on("newBid", handleNewBid);
+    socket.on("receiveMessage", (message) => { onMessage(message);});
 
     return () => {
       socket.off("newBid", handleNewBid);
       socket.emit("leaveAuction", auctionId);
+      socket.disconnect();
     };
-  }, [auctionId, onNewBid]);
+  }, [auctionId, onNewBid, conversationId, onMessage]);
+  
+    return socket;
 };
 
 export default useSocket;
