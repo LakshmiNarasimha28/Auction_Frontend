@@ -9,7 +9,7 @@ const socketUrl =
     ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, "")
     : "");
 
-const socket = socketUrl
+export const socket = socketUrl
   ? io(socketUrl, {
       transports: ["websocket"],
       autoConnect: true
@@ -37,6 +37,8 @@ const useSocket = (auctionId, onNewBid) => {
       socket.emit("leaveAuction", auctionId);
     };
   }, [auctionId, onNewBid]);
+  
+  return socket;
 };
 
 export default useSocket;
