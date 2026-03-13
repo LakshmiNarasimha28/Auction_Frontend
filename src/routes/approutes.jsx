@@ -9,6 +9,11 @@ import CreateAuction from "../pages/auction/createAuction";
 import ProtectedRoute from "../components/protectedroute.jsx";
 import PaymentPage from "../pages/payments.jsx";
 import ChatPage from "../pages/chat.jsx";
+import Categories from "../pages/category/Categories.jsx";
+import Wishlist from "../pages/wishlist/Wishlist.jsx";
+import ActivityHistory from "../pages/activity/ActivityHistory.jsx";
+import Reviews from "../pages/review/Reviews.jsx";
+import Search from "../pages/search/Search.jsx";
 
 const AppRoutes = () => {
   return (
@@ -26,6 +31,11 @@ const AppRoutes = () => {
           <Route path="/create-auction" element={<ProtectedRoute><CreateAuction /></ProtectedRoute>} />
           <Route path="/payment/:id" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />
           <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+          <Route path="/activity" element={<ProtectedRoute><ActivityHistory /></ProtectedRoute>} />
+          <Route path="/reviews" element={<ProtectedRoute><Reviews /></ProtectedRoute>} />
         </Route>
 
         {/* Catch-all redirect */}

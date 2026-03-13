@@ -31,7 +31,7 @@ const Register = () => {
         return;
       }
 
-      const res = await API.post("/auth/register", form);
+      const res = await API.post("/auth/signup", form);
       
       if (res.data.data.user) {
         setUser(res.data.data.user);
